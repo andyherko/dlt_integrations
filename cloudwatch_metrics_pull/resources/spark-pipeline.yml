@@ -1,0 +1,26 @@
+resources:
+  pipelines:
+    cloudwatch_metrics_pull:
+      name: cloudwatch_metrics_pull
+      # Use the variables defined in databricks.yml
+      catalog: ${var.catalog}
+      target: ${var.schema}
+
+      configuration:
+        # These allow your Python code to access the values via spark.conf.get()
+        catalog: ${var.catalog}
+        schema: ${var.schema}
+
+      libraries:
+        - file:
+            path: ../sdp-python/transformations/01-bronze.py
+        - file:
+            path: ../sdp-python/transformations/test/01-bronze-test.py
+
+
+      continuous: false
+      development: true
+      photon: true
+      edition: ADVANCED
+      channel: CURRENT
+      serverless: true
