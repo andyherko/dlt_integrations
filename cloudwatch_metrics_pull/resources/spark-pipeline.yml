@@ -1,16 +1,16 @@
 resources:
   pipelines:
     cloudwatch_metrics_pull:
-      name: cloudwatch_metrics_pull
-      # Use the variables defined in databricks.yml
+      name: ${bundle.name}_${var.env}
+      # Required for Serverless
       catalog: ${var.catalog}
+      # The Schema where your tables and logs will live
       target: ${var.schema}
-
+#      storage: /Volumes/${var.catalog}/${var.schema}/checkpoints/${var.env}
       configuration:
-        # These allow your Python code to access the values via spark.conf.get()
         catalog: ${var.catalog}
         schema: ${var.schema}
-
+        env: ${var.env}
       libraries:
         - file:
             path: ../sdp-python/transformations/01-bronze.py
@@ -18,16 +18,14 @@ resources:
             path: ../sdp-python/transformations/test/01-bronze-test.py
 
         - file:
-            path: ../sdp-python/transformations/01-silver.py
+            path: ../sdp-python/transformations/02-silver.py
         - file:
-            path: ../sdp-python/transformations/test/01-silver-test.py
-
+            path: ../sdp-python/transformations/test/02-silver-test.py
         - file:
-            path: ../sdp-python/transformations/01-gold.py
+            path: ../sdp-python/transformations/03-gold.py
         - file:
-            path: ../sdp-python/transformations/test/01-gold-test.py
-
+            path: ../sdp-python/transformations/test/03-gold-test.py
       continuous: false
-      development: true
-      channel: CURRENT
+      development: ${var.is_dev}
+      channel: CURRENT # "DLT runtime channel (CURRENT or PREVIEW)"
       serverless: true

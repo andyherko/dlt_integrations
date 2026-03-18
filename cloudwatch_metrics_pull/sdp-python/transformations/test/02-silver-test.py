@@ -7,7 +7,8 @@ from pyspark.sql.functions import col, count, when, sum as _sum
     private=True
 )
 @dp.expect_all_or_fail({
-    "keep_all_rows": "num_rows = 4",
+    # "keep_all_rows": "num_rows = 4",
+    "keep_all_rows": "num_rows > 0",
     "email_should_be_anonymized": "clear_email = 0",
     "null_ids_removed": "null_id_count = 0"
 })

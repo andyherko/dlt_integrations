@@ -5,7 +5,7 @@ from config import get_rules
 
 # Clean and anonymize User data
 @dp.table(comment="User data cleaned and anonymized for analysis.")
-@dp.expect_all_or_drop(get_rules('user_silver_sdp'))
+@dp.expect_all_or_fail(get_rules('user_silver_sdp'))
 def user_silver_sdp():
   return (
     spark.readStream.table("user_bronze_sdp").select(

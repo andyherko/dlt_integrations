@@ -5,25 +5,24 @@ from config import get_rules
 spark.conf.set("pipelines.incompatibleViewCheck.enabled", "false")
 catalog = spark.conf.get("catalog")
 schema = spark.conf.get("schema")
+env = spark.conf.get("env")
 
 
-@dp.table(comment="Raw user data - Test")
+@dp.table(comment="Raw user data")
 def raw_user_data():
   return (
     spark.readStream.format("cloudFiles")
       .option("cloudFiles.format", "json")
       .option("cloudFiles.schemaHints", "id int")
-      .load(f"/Volumes/lakehouse_dev/cloudwatch_metrics_pull/raw_data/test/users_json/*.json"))
+      .load(f"/Volumes/{catalog}/{schema}/raw_data/prod/users_json/*.json"))
 
 
-from pyspark import pipelines as dp
-
-@dp.table(comment="Raw spend data - Test")
+@dp.table(comment="Raw spend data")
 def raw_spend_data():
   return (spark.readStream.format("cloudFiles")
     .option("cloudFiles.format","csv")
     .option("cloudFiles.schemaHints", "id int, age int, annual_income float, spending_core float")
-    .load(f"/Volumes/lakehouse_dev/cloudwatch_metrics_pull/raw_data/test/spend_csv/*.csv"))
+    .load(f"/Volumes/{catalog}/{schema}/raw_data/prod/spend_csv/*.csv"))
 
   # Ingest raw User stream data in incremental mode
 
