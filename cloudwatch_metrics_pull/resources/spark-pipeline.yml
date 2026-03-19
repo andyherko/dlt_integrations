@@ -17,17 +17,10 @@ resources:
         - file:
             path: ../sdp-python/transformations/test/01-bronze-test.py
 
-        - file:
-            path: ../sdp-python/transformations/01-silver.py
-        - file:
-            path: ../sdp-python/transformations/test/01-silver-test.py
-
-        - file:
-            path: ../sdp-python/transformations/01-gold.py
-        - file:
-            path: ../sdp-python/transformations/test/01-gold-test.py
 
       continuous: false
       development: true
+      photon: true
+      edition: ADVANCED
       channel: CURRENT
       serverless: true
