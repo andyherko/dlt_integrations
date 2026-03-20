@@ -9,4 +9,5 @@ scratch/**
 **/explorations/**
 **/!explorations/README.md
 .env
-.idea
+.idea/
+/.vscode/

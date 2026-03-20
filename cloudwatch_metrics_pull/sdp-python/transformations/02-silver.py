@@ -28,3 +28,25 @@ def user_silver_sdp():
 @dp.expect_all_or_drop(get_rules('spend_silver_sdp'))
 def spend_silver_sdp():
     return spark.readStream.table("raw_spend_data")
+
+
+import dlt
+from pyspark.sql.functions import col
+
+# Bronze — auto-managed ingestion table
+@dlt.table
+def bronze_orders():
+    return (spark.readStream
+      .format("cloudFiles")
+      .option("cloudFiles.format", "json")
+      .load("/landing/orders"))
+
+
+# Silver — framework resolves dependency
+@dlt.table
+@dlt.expect_or_drop("valid_order_id",
+                    "order_id IS NOT NULL")
+@dlt.expect_or_drop("positive_amount",
+                    "amount > 0")
+def silver_orders():
+    return dlt.read_stream("bronze_orders")
