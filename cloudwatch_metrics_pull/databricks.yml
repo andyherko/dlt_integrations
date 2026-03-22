@@ -21,6 +21,7 @@ targets:
     mode: development
     default: true
     workspace:
+      host: https://dbc-2e2e74a8-e436.cloud.databricks.com
       root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
     variables:
       env: dev
@@ -28,6 +29,7 @@ targets:
   prod:
     mode: production
     workspace:
+      host: https://dbc-2e2e74a8-e436.cloud.databricks.com
       root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
     variables:
       env: prod

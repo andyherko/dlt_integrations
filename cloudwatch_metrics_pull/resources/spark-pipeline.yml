@@ -16,7 +16,6 @@ resources:
             path: ../sdp-python/transformations/01-bronze.py
         - file:
             path: ../sdp-python/transformations/test/01-bronze-test.py
-
         - file:
             path: ../sdp-python/transformations/02-silver.py
         - file:
@@ -25,7 +24,7 @@ resources:
             path: ../sdp-python/transformations/03-gold.py
         - file:
             path: ../sdp-python/transformations/test/03-gold-test.py
-      continuous: false
+      continuous: true
       development: ${var.is_dev}
       channel: CURRENT # "DLT runtime channel (CURRENT or PREVIEW)"
       serverless: true

@@ -30,27 +30,3 @@ def raw_spend_data():
 @dp.expect_all_or_drop(get_rules('user_bronze_sdp')) #get the rules from our centralized table.
 def user_bronze_sdp():
   return spark.readStream.table("raw_user_data")
-
-
-# Must manually wire every step
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
-
-# Step 1 — ingest raw source
-raw_df = (spark.readStream
-  .format("cloudFiles")
-  .option("cloudFiles.format", "json")
-  .load("/landing/orders"))
-
-# Step 2 — clean & validate manually
-silver_df = (raw_df
-  .filter(col("order_id").isNotNull())
-  .filter(col("amount") > 0))
-
-# Step 3 — write; checkpoint managed by you
-(silver_df.writeStream
-  .format("delta")
-  .option("checkpointLocation",
-         "/checkpoints/orders")
-  .outputMode("append")
-  .toTable("silver.orders"))
