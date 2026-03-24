@@ -1,5 +1,7 @@
 from pyspark import pipelines as dp
+
 from config import get_rules
+
 
 # Join both data to create our final table
 @dp.table(comment="Final user table with all information for Analysis / ML")

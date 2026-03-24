@@ -11,3 +11,5 @@ scratch/**
 .env
 .idea/
 /.vscode/
+.gemini
+.databricks

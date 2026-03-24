@@ -39,7 +39,7 @@ volume_folder =  f"/Volumes/{catalog}/{db}/{volume_name}"
 #shutil.copyfile("./dataset/spend.csv", "/Volumes/lakehouse_dev/cloudwatch_metrics_pull/raw_data/test/spend_csv/spend.csv")
 
 
-spend_csv = """id,age,annual_income,spending_core
+spend_csv = """id,age,annual_income,spending_score
 3,47,858.9,99.4
 1,47,861.9,48.1
 2,97,486.4,880.8
@@ -71,7 +71,7 @@ data = [
  ("spend_silver_sdp", "valid_id",       "id IS NOT NULL AND id > 0"),
  ("user_gold_sdp",    "valid_age",      "age IS NOT NULL"),
  ("user_gold_sdp",    "valid_income",   "annual_income IS NOT NULL"),
- ("user_gold_sdp",    "valid_score",    "spending_core IS NOT NULL")
+ ("user_gold_sdp",    "valid_score",    "spending_score IS NOT NULL")
 ]
 #Typically only run once, this doesn't have to be part of the SDP pipeline.
 spark.createDataFrame(data=data, schema=["tag", "name", "constraint"]).write.mode("overwrite").saveAsTable(f"{catalog}.{schema}.expectations")

@@ -2,6 +2,14 @@
 # See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
 bundle:
   name: cloudwatch_metrics_pull
+# Serverless Delta Live Tables (DLT): it currently does not support direct .whl files in the libraries section of the pipeline configuration.
+#artifacts:
+#  default:
+#    type: whl
+#    path: .
+#    build: uv build --wheel --out-dir ./target/releasable
+#    files:
+#      - source: ./target/releasable/*.whl
 include:
   - resources/*.yml
   - resources/*/*.yml
@@ -34,3 +42,4 @@ targets:
     variables:
       env: prod
       is_dev: false
+      catalog: lakehouse_prod
