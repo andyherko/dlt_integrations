@@ -37,3 +37,6 @@ def test_calculate_spending_efficiency_kpi(spark):
     assert results[0]["spending_efficiency"] == 50.0
     assert results[1]["spending_efficiency"] == 10.0
     assert results[2]["spending_efficiency"] is None
+
+def test_fail():
+    return False
