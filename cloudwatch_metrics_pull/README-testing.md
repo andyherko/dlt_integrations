@@ -1,7 +1,6 @@
+## The Architectural Paradigm of Spark Declarative Pipelines
 
 This analysis leverages the Databricks `dbdemos` module (specifically `declarative-pipeline-unit-test`) to demonstrate SDP testing best practices. More information can be found at the [Databricks Demos repository](https://github.com/databricks-demos/dbdemos).
-
-### The Architectural Paradigm of Spark Declarative Pipelines
 
 Understanding the necessity of advanced testing requires a deep dive into the underlying architecture of Spark Declarative Pipelines. Unlike standard Spark applications that execute code top-to-bottom, SDP relies on a Pipeline Runner to analyze an entire data flow graph before execution begins. This pre-validation phase is designed to catch schema mismatches, resolve dependencies automatically, and implement built-in retries and parallelization. The framework supports both Python and SQL, often mixing them within a single pipeline project defined by a YAML specification file.
 
@@ -218,3 +217,17 @@ The CI/CD pipeline should execute tests in order, stopping at the first failure:
 |**Out-of-Order**|Verify newer events override older ones based on key.|Value matches the latest timestamp.|
 |**SCD Type 2**|Verify historical records are updated with end-dates.|end_date matches next version's start_date.|
 |**Type Widening**|Verify schema evolution does not crash.|Schema matches the broader type.|
+
+
+## Local Quality Guardrails
+
+This repo uses Git hooks to enforce unit testing:
+
+- `pre-commit`: runs `uv run pytest -m unit` (fast unit tests only)
+- `pre-push`: runs `uv run pytest` (full unit test suite)
+
+Initial setup:
+
+```bash
+git config core.hooksPath .githooks
+chmod +x .githooks/pre-commit .githooks/pre-push
