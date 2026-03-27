@@ -34,6 +34,24 @@ targets:
     variables:
       env: dev
       is_dev: true
+    resources:
+      pipelines:
+        cloudwatch_metrics_pull:
+          libraries: &test_libraries
+            - file:
+                path: ./tests/transformations/*.py
+#  test:
+#    mode: development
+#    workspace:
+#      host: https://dbc-2e2e74a8-e436.cloud.databricks.com
+#      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+#    variables:
+#      env: test
+#      is_dev: true
+#    resources:
+#      pipelines:
+#        cloudwatch_metrics_pull:
+#          libraries: *test_libraries
   prod:
     mode: production
     workspace:

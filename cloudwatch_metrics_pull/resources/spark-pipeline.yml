@@ -1,7 +1,7 @@
 resources:
   pipelines:
     cloudwatch_metrics_pull:
-      name: ${bundle.name}_${var.env}
+      name: ${bundle.name}
       # Required for Serverless
       catalog: ${var.catalog}
       # The Schema where your tables and logs will live
@@ -15,16 +15,14 @@ resources:
         - file:
             path: ../sdp-python/transformations/01-bronze.py
         - file:
-            path: ../sdp-python/transformations/test/01-bronze-test.py
-        - file:
             path: ../sdp-python/transformations/02-silver.py
         - file:
-            path: ../sdp-python/transformations/test/02-silver-test.py
-        - file:
             path: ../sdp-python/transformations/03-gold.py
-        - file:
-            path: ../sdp-python/transformations/test/03-gold-test.py
-      continuous: true
+      continuous: false
       development: ${var.is_dev}
       channel: CURRENT # "DLT runtime channel (CURRENT or PREVIEW)"
       serverless: true
+      event_log:
+        catalog: "${var.catalog}"
+        schema: "${var.schema}"
+        name: "${bundle.name}_events"
