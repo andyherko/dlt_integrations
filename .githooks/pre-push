@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# File: .githooks/pre-push
+# Purpose: Full unit test suite before pushing to remote
+
+set -e
+
+echo "[pre-push] Running full unit test suite via uv..."
+
+uv run pytest
+RESULT=$?
+
+if [ $RESULT -ne 0 ]; then
+  echo "[pre-push] Tests failed. Push aborted."
+  exit $RESULT
+fi
+
+echo "[pre-push] OK"
+exit 0

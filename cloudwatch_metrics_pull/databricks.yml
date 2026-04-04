@@ -1,0 +1,55 @@
+# This is a Databricks asset bundle definition for cloudwatch_metrics_pull.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: cloudwatch_metrics_pull
+# Serverless Delta Live Tables (DLT): it currently does not support direct .whl files in the libraries section of the pipeline configuration.
+#artifacts:
+#  default:
+#    type: whl
+#    path: .
+#    build: uv build --wheel --out-dir ./target/releasable
+#    files:
+#      - source: ./target/releasable/*.whl
+include:
+  - resources/*.yml
+  - resources/*/*.yml
+variables:
+  catalog:
+    description: The target Unity Catalog
+    default: lakehouse_dev
+  schema:
+    description: The target Schema
+    default: cloudwatch_metrics_pull
+  env:
+    description: "Environment identifier (dev/prod)"
+  is_dev:
+      description: "Boolean flag for development mode"
+targets:
+  dev:
+    mode: development
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+    resources:
+      pipelines:
+        cloudwatch_metrics_pull:
+          libraries: &test_libraries
+            - file:
+                path: ./tests/transformations/*.py
+#  test:
+#    mode: development
+#    workspace:
+#      host: https://dbc-2e2e74a8-e436.cloud.databricks.com
+#      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+#    variables:
+#      env: test
+#      is_dev: true
+#    resources:
+#      pipelines:
+#        cloudwatch_metrics_pull:
+#          libraries: *test_libraries
+  prod:
+    mode: production
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: lakehouse_prod
