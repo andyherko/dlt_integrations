@@ -230,5 +230,5 @@ Initial setup:
 
 ```bash
 git config core.hooksPath .githooks
-chmod +x .githooks/pre-commit .githooks/pre-push
+chmod +x .githooks/pre-push
 
