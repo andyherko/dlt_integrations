@@ -30,6 +30,6 @@ def raw_spend_data():
   # Ingest raw User stream data in incremental mode
 
 @dp.table(comment="Raw user data")
-@dp.expect_all_or_drop(('user_bronze_sdp')) #get the rules from our centralized table.
+@dp.expect_all_or_drop(get_rules('user_bronze_sdp')) #get the rules from our centralized table.
 def user_bronze_sdp():
   return spark.readStream.table("raw_user_data")
